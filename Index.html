@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rutinas Pedro y Juli</title>
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiUnV0aW5hcyBQZWRybyB5IEp1bGkiLCJzaG9ydF9uYW1lIjoiUnV0aW5hcyIsInN0YXJ0X3VybCI6Ii8iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMGYwMDIwIiwidGhlbWVfY29sb3IiOiIjRTgwMDFDIiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU1qUXdJaUJvWldsbmFIUTlJakkwTUNJZ2VHMXNibk05SW1oMGRIQTZMeTkzZDNjdWR6TXViM0puTHpJd01EQXZjM1puSWo0OGNtVmpkQ0IzYVdSMGFEMGlNalF3SWlCb1pXbG5hSFE5SWpJME1DSWdabWxzYkQwaUkwVTRNREF4UXlJZ2NuZzlJakV5TUNJZ2NuazlJakV5TUNJZ2MyaHZjR1V0Y21WdVpHVnlhVzVuUFNKamNtbHpjSEJGWkdkbGN5SXZQangwWlhoMElIZzlJakV5TUNJZ2VUMGlNVFl3SWlCMFpYaDBMV0ZqYm1odmNqMGliV2xrWkd4bElpQm1hV3hzUFNKM2FHbDBaU0lnWm05dWRDMXphWHBsUFNJNE1DSWdabTl1ZEMxbVlXMXBiSGs5SWlOUmRXbGphM05oYm1RaUlIZGxhV2RvZEQwaVltOXNaQ0krOEowb1JtWUExWTFTWWk0OEwzUmxlSFErUEM5emRtYysiLCJzaXplcyI6IjI0MHgyNDAiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCJ9XX0=">
+    <meta name="theme-color" content="#E8001C">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Trebuchet MS', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+        
+        @keyframes pop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script>
+        const PERFILES = {
+            pedro: {
+                nombre: "Pedro",
+                personaje: "🏎️",
+                tema: "mario",
+                colores: { primario: "#E8001C", secundario: "#FFD700", fondo: "#1a0533", card: "#2d0a4e" },
+                gradiente: "linear-gradient(135deg, #E8001C, #FFD700)",
+                celebracion: "¡WAAAH! ¡Shy Guy gana la carrera! 🏆🏎️",
+                bg: "linear-gradient(160deg, #1a0533 0%, #2d0a4e 50%, #1a0533 100%)",
+            },
+            juli: {
+                nombre: "Juli",
+                personaje: "🎤",
+                tema: "kpop",
+                colores: { primario: "#FF69B4", secundario: "#FFE4F0", fondo: "#1a0030", card: "#2d0050" },
+                gradiente: "linear-gradient(135deg, #FF69B4, #C084FC)",
+                celebracion: "¡Zoé llegó al escenario! ¡El show comienza! 🎤✨",
+                bg: "linear-gradient(160deg, #1a0030 0%, #2d0050 50%, #1a0030 100%)",
+            },
+        };
+
+        const RUTINAS = {
+            mañana: {
+                label: "Mañana",
+                emoji: "🌅",
+                pasos: [
+                    { id: 1, emoji: "⏰", texto: "¡Despertar!" },
+                    { id: 2, emoji: "🥣", texto: "Desayunar" },
+                    { id: 3, emoji: "👕", texto: "Vestirse" },
+                    { id: 4, emoji: "🪥", texto: "Cepillar dientes" },
+                    { id: 5, emoji: "🚽", texto: "Ir al baño" },
+                    { id: 6, emoji: "🎒", texto: "Mochila lista" },
+                    { id: 7, emoji: "🚌", texto: "¡A la escuela!" },
+                ],
+            },
+            tarde: {
+                label: "Tarde",
+                emoji: "🏠",
+                pasos: [
+                    { id: 1, emoji: "🚌", texto: "Llegar a casa" },
+                    { id: 2, emoji: "👟", texto: "Cambiarse de ropa" },
+                    { id: 3, emoji: "🍎", texto: "Merienda" },
+                    { id: 4, emoji: "🧩", texto: "Trabajar con Vale" },
+                    { id: 5, emoji: "🎮", texto: "Tiempo libre" },
+                ],
+            },
+            noche: {
+                label: "Noche",
+                emoji: "🌙",
+                pasos: [
+                    { id: 1, emoji: "🤗", texto: "Recibir a mamá" },
+                    { id: 2, emoji: "📱", texto: "30 min de celular" },
+                    { id: 3, emoji: "🍽️", texto: "Cenar" },
+                    { id: 4, emoji: "🩲", texto: "Ponerse pijama" },
+                    { id: 5, emoji: "🪥", texto: "Cepillarse los dientes" },
+                    { id: 6, emoji: "💤", texto: "¡A dormir!" },
+                ],
+            },
+        };
+
+        let estado = {
+            perfil: null,
+            rutinaActiva: "mañana",
+            completados: {
+                pedro: { mañana: [], tarde: [], noche: [] },
+                juli: { mañana: [], tarde: [], noche: [] },
+            },
+        };
+
+        function createElement(tag, props = {}, ...children) {
+            const element = document.createElement(tag);
+            
+            Object.entries(props).forEach(([key, value]) => {
+                if (key === 'style' && typeof value === 'object') {
+                    Object.assign(element.style, value);
+                } else if (key === 'onClick') {
+                    element.addEventListener('click', value);
+                } else if (key === 'onMouseEnter') {
+                    element.addEventListener('mouseenter', value);
+                } else if (key === 'onMouseLeave') {
+                    element.addEventListener('mouseleave', value);
+                } else {
+                    element[key] = value;
+                }
+            });
+
+            children.forEach(child => {
+                if (typeof child === 'string') {
+                    element.appendChild(document.createTextNode(child));
+                } else if (child) {
+                    element.appendChild(child);
+                }
+            });
+
+            return element;
+        }
+
+        function crearPistaProgreso(perfil, completados, total) {
+            const p = PERFILES[perfil];
+            const pct = total === 0 ? 0 : completados / total;
+            const esPedro = perfil === "pedro";
+
+            return createElement('div', {
+                style: {
+                    width: "100%",
+                    maxWidth: "420px",
+                    marginBottom: "1.2rem",
+                    background: "rgba(255,255,255,0.05)",
+                    borderRadius: "20px",
+                    padding: "1rem",
+                    border: `1px solid ${p.colores.primario}44`,
+                }
+            },
+                createElement('div', { style: { position: "relative", height: "60px", marginBottom: "0.5rem" } },
+                    createElement('div', {
+                        style: {
+                            position: "absolute",
+                            bottom: "20px",
+                            left: "10px",
+                            right: "10px",
+                            height: "8px",
+                            background: "rgba(255,255,255,0.1)",
+                            borderRadius: "99px",
+                            overflow: "hidden",
+                        }
+                    },
+                        createElement('div', {
+                            style: {
+                                height: "100%",
+                                width: `${pct * 100}%`,
+                                background: p.gradiente,
+                                borderRadius: "99px",
+                                transition: "width 0.5s ease",
+                                boxShadow: `0 0 10px ${p.colores.primario}`,
+                            }
+                        })
+                    ),
+                    createElement('div', {
+                        style: {
+                            position: "absolute",
+                            right: "0px",
+                            bottom: "8px",
+                            fontSize: "1.8rem",
+                            filter: pct === 1 ? "none" : "grayscale(60%) opacity(0.5)",
+                            transition: "all 0.5s",
+                        }
+                    }, esPedro ? "🏁" : "🎤"),
+                    createElement('div', {
+                        style: {
+                            position: "absolute",
+                            left: `calc(${Math.max(0, pct * 85)}% + 5px)`,
+                            bottom: "12px",
+                            fontSize: "1.8rem",
+                            transition: "left 0.5s ease",
+                            filter: `drop-shadow(0 0 6px ${p.colores.primario})`,
+                        }
+                    }, esPedro ? "🏎️" : "💃")
+                ),
+                createElement('div', { style: { display: "flex", justifyContent: "space-between", alignItems: "center" } },
+                    createElement('span', { 
+                        style: { color: "rgba(255,255,255,0.5)", fontSize: "0.8rem" } 
+                    }, esPedro ? "¡Dale gas Shy Guy!" : "¡Zoé al escenario!"),
+                    createElement('span', { 
+                        style: { color: p.colores.primario, fontWeight: "bold", fontSize: "0.85rem" } 
+                    }, `${completados}/${total} ⭐`)
+                )
+            );
+        }
+
+        function crearVistaRutina(perfil, rutinaKey, completados, onToggle) {
+            const p = PERFILES[perfil];
+            const rutina = RUTINAS[rutinaKey];
+            const hechos = completados[rutinaKey] || [];
+            const total = rutina.pasos.length;
+            const terminada = hechos.length === total;
+
+            const container = createElement('div', { style: { width: "100%", maxWidth: "420px" } });
+            
+            container.appendChild(crearPistaProgreso(perfil, hechos.length, total));
+
+            if (terminada) {
+                const celebracion = createElement('div', {
+                    style: {
+                        background: p.gradiente,
+                        borderRadius: "18px",
+                        padding: "1rem",
+                        textAlign: "center",
+                        marginBottom: "1rem",
+                        boxShadow: `0 8px 30px ${p.colores.primario}55`,
+                        animation: "pop 0.4s ease",
+                    }
+                },
+                    createElement('div', { style: { fontSize: "2rem" } }, "🎉⭐🎉"),
+                    createElement('p', { 
+                        style: { margin: "0.3rem 0 0", color: "white", fontWeight: "bold", fontSize: "1rem" } 
+                    }, p.celebracion)
+                );
+                container.appendChild(celebracion);
+            }
+
+            const pasos = createElement('div', { 
+                style: { display: "flex", flexDirection: "column", gap: "0.65rem" } 
+            });
+
+            rutina.pasos.forEach((paso, i) => {
+                const hecho = hechos.includes(paso.id);
+                const boton = createElement('button', {
+                    style: {
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.9rem",
+                        background: hecho ? `${p.colores.primario}22` : "rgba(255,255,255,0.05)",
+                        border: `2px solid ${hecho ? p.colores.primario : "rgba(255,255,255,0.1)"}`,
+                        borderRadius: "16px",
+                        padding: "0.85rem 1rem",
+                        cursor: "pointer",
+                        transition: "all 0.2s ease",
+                        transform: hecho ? "scale(1.02)" : "scale(1)",
+                        boxShadow: hecho ? `0 4px 16px ${p.colores.primario}44` : "none",
+                        textAlign: "left",
+                        width: "100%",
+                    },
+                    onClick: () => onToggle(rutinaKey, paso.id)
+                },
+                    createElement('div', {
+                        style: {
+                            width: "28px",
+                            height: "28px",
+                            borderRadius: "50%",
+                            background: hecho ? p.gradiente : "rgba(255,255,255,0.1)",
+                            color: "white",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontWeight: "bold",
+                            fontSize: "0.8rem",
+                            flexShrink: 0,
+                            transition: "all 0.2s",
+                        }
+                    }, hecho ? "✓" : (i + 1).toString()),
+                    createElement('span', { style: { fontSize: "1.7rem", flexShrink: 0 } }, paso.emoji),
+                    createElement('span', {
+                        style: {
+                            fontSize: "1.05rem",
+                            fontWeight: "600",
+                            color: hecho ? p.colores.primario : "rgba(255,255,255,0.85)",
+                            transition: "color 0.2s",
+                        }
+                    }, paso.texto)
+                );
+
+                if (hecho) {
+                    boton.appendChild(createElement('span', { 
+                        style: { marginLeft: "auto", fontSize: "1.1rem" } 
+                    }, "⭐"));
+                }
+
+                pasos.appendChild(boton);
+            });
+
+            container.appendChild(pasos);
+            return container;
+        }
+
+        function toggle(rutinaKey, id) {
+            const actuales = estado.completados[estado.perfil][rutinaKey];
+            const nuevos = actuales.includes(id)
+                ? actuales.filter(c => c !== id)
+                : [...actuales, id];
+            
+            estado.completados = {
+                ...estado.completados,
+                [estado.perfil]: { 
+                    ...estado.completados[estado.perfil], 
+                    [rutinaKey]: nuevos 
+                },
+            };
+
+            // Reproducir sonido de éxito si se completa
+            if (!actuales.includes(id)) {
+                reproducirSonido();
+            }
+            
+            render();
+        }
+
+        function reproducirSonido() {
+            // Crear un sonido simple usando Web Audio API
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.1);
+            gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.3);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+        }
+
+        function render() {
+            const app = document.getElementById('app');
+            app.innerHTML = '';
+
+            const p = estado.perfil ? PERFILES[estado.perfil] : null;
+
+            if (!estado.perfil) {
+                // Pantalla de selección
+                const pantalla = createElement('div', {
+                    style: {
+                        minHeight: "100vh",
+                        background: "linear-gradient(160deg, #0f0020 0%, #1a0040 50%, #0f0020 100%)",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: "2rem",
+                    }
+                },
+                    createElement('div', { style: { textAlign: "center", marginBottom: "2.5rem" } },
+                        createElement('div', { style: { fontSize: "3rem", marginBottom: "0.5rem" } }, "✨"),
+                        createElement('h1', { 
+                            style: { color: "white", margin: 0, fontSize: "1.8rem", fontWeight: "bold" } 
+                        }, "¡Mis Rutinas!"),
+                        createElement('p', { 
+                            style: { color: "rgba(255,255,255,0.4)", marginTop: "0.4rem" } 
+                        }, "¿Quién eres hoy?")
+                    ),
+                    createElement('div', { 
+                        style: { display: "flex", gap: "1.5rem", flexWrap: "wrap", justifyContent: "center" } 
+                    },
+                        ...Object.entries(PERFILES).map(([key, perfil]) => 
+                            createElement('button', {
+                                style: {
+                                    background: perfil.bg,
+                                    border: `3px solid ${perfil.colores.primario}`,
+                                    borderRadius: "28px",
+                                    padding: "2rem 2.5rem",
+                                    cursor: "pointer",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    gap: "0.8rem",
+                                    minWidth: "140px",
+                                    boxShadow: `0 8px 40px ${perfil.colores.primario}44`,
+                                    transition: "transform 0.2s ease",
+                                },
+                                onClick: () => {
+                                    estado.perfil = key;
+                                    render();
+                                },
+                                onMouseEnter: (e) => e.target.style.transform = "scale(1.05)",
+                                onMouseLeave: (e) => e.target.style.transform = "scale(1)"
+                            },
+                                createElement('span', { style: { fontSize: "3.5rem" } }, perfil.personaje),
+                                createElement('span', { 
+                                    style: { 
+                                        color: "white", 
+                                        fontSize: "1.3rem", 
+                                        fontWeight: "bold", 
+                                        letterSpacing: "0.05em" 
+                                    } 
+                                }, perfil.nombre),
+                                createElement('span', { 
+                                    style: { color: perfil.colores.primario, fontSize: "0.85rem" } 
+                                }, key === "pedro" ? "🏎️ Shy Guy" : "🎤 Zoé")
+                            )
+                        )
+                    )
+                );
+                app.appendChild(pantalla);
+            } else {
+                // Pantalla principal
+                const pantalla = createElement('div', {
+                    style: {
+                        minHeight: "100vh",
+                        background: p.bg,
+                        padding: "1.2rem",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                    }
+                },
+                    createElement('div', {
+                        style: {
+                            width: "100%",
+                            maxWidth: "420px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            marginBottom: "1.2rem",
+                        }
+                    },
+                        createElement('button', {
+                            style: {
+                                background: "rgba(255,255,255,0.1)",
+                                border: "none",
+                                borderRadius: "99px",
+                                padding: "0.4rem 0.9rem",
+                                color: "rgba(255,255,255,0.6)",
+                                fontSize: "0.85rem",
+                                cursor: "pointer",
+                            },
+                            onClick: () => {
+                                estado.perfil = null;
+                                render();
+                            }
+                        }, "← Cambiar"),
+                        createElement('div', { style: { textAlign: "center" } },
+                            createElement('span', { 
+                                style: { color: "white", fontWeight: "bold", fontSize: "1.1rem" } 
+                            }, `${p.personaje} ${p.nombre}`)
+                        ),
+                        createElement('div', { style: { width: "70px" } })
+                    ),
+                    createElement('div', {
+                        style: {
+                            display: "flex",
+                            gap: "0.5rem",
+                            marginBottom: "1.3rem",
+                            background: "rgba(255,255,255,0.05)",
+                            padding: "0.35rem",
+                            borderRadius: "99px",
+                            border: "1px solid rgba(255,255,255,0.1)",
+                        }
+                    },
+                        ...Object.entries(RUTINAS).map(([key, rutina]) => {
+                            const hechos = estado.completados[estado.perfil][key].length;
+                            const total = rutina.pasos.length;
+                            const activa = estado.rutinaActiva === key;
+                            
+                            const boton = createElement('button', {
+                                style: {
+                                    background: activa ? p.gradiente : "transparent",
+                                    border: "none",
+                                    borderRadius: "99px",
+                                    padding: "0.45rem 0.9rem",
+                                    color: activa ? "white" : "rgba(255,255,255,0.4)",
+                                    fontWeight: activa ? "bold" : "normal",
+                                    fontSize: "0.85rem",
+                                    cursor: "pointer",
+                                    transition: "all 0.2s",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "0.3rem",
+                                    boxShadow: activa ? `0 4px 12px ${p.colores.primario}55` : "none",
+                                },
+                                onClick: () => {
+                                    estado.rutinaActiva = key;
+                                    render();
+                                }
+                            }, `${rutina.emoji} ${rutina.label}`);
+
+                            if (hechos > 0) {
+                                boton.appendChild(createElement('span', {
+                                    style: {
+                                        background: "rgba(255,255,255,0.3)",
+                                        borderRadius: "99px",
+                                        padding: "0 5px",
+                                        fontSize: "0.7rem",
+                                    }
+                                }, `${hechos}/${total}`));
+                            }
+
+                            return boton;
+                        })
+                    ),
+                    crearVistaRutina(estado.perfil, estado.rutinaActiva, estado.completados[estado.perfil], toggle)
+                );
+                app.appendChild(pantalla);
+            }
+        }
+
+        // PWA Setup
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swCode = `
+                    const CACHE_NAME = 'rutinas-v1';
+                    const urlsToCache = ['/'];
+                    
+                    self.addEventListener('install', (event) => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then((cache) => cache.addAll(urlsToCache))
+                        );
+                    });
+                    
+                    self.addEventListener('fetch', (event) => {
+                        event.respondWith(
+                            caches.match(event.request)
+                                .then((response) => {
+                                    return response || fetch(event.request);
+                                })
+                        );
+                    });
+                `;
+                
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then(() => console.log('Service Worker registrado'))
+                    .catch(() => console.log('Error registrando Service Worker'));
+            });
+        }
+
+        // Inicializar app
+        render();
+
+        // Mostrar botón de instalación
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Crear botón de instalación
+            const installBtn = createElement('button', {
+                style: {
+                    position: 'fixed',
+                    bottom: '20px',
+                    right: '20px',
+                    background: '#E8001C',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '50px',
+                    padding: '10px 20px',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    boxShadow: '0 4px 12px rgba(232, 0, 28, 0.4)',
+                    zIndex: 1000
+                },
+                onClick: () => {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then(() => {
+                        installBtn.remove();
+                        deferredPrompt = null;
+                    });
+                }
+            }, '📱 Instalar App');
+            
+            document.body.appendChild(installBtn);
+        });
+    </script>
+</body>
+</html>
